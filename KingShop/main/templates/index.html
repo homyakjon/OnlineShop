@@ -13,9 +13,9 @@
         <div class="container">
             <h2>Welcome to Our Online Store</h2>
 
-            <h2 class="user">hi, {{ user.username }}!</h2>
+            <h2 class="user"> {{ user.username }} </h2>
             {% if user.is_authenticated %}
-                <p class="balance">Your balance: {{ user.userprofile.balance }}</p>
+                <p class="balance">Your balance: {{ user.userprofile.balance }} </p>
             {% else %}
                 <p class="balance">Your balance: $0</p>
             {% endif %}
@@ -34,16 +34,22 @@
         <div class="container">
             <h2>Explore Our Categories</h2>
             <div class="category-item">
+                <a href="{% url 'category_products' category_name='Electronics' %}">
                 <img src="static/images/tech.jpeg" alt="Category">
                 <h3>Electronics</h3>
+                </a>
             </div>
             <div class="category-item">
+                <a href="{% url 'category_products' category_name='Clothing' %}">
                 <img src="static/images/cloth.jpeg" alt="Category">
                 <h3>Clothing</h3>
+                </a>
             </div>
             <div class="category-item">
+                <a href="{% url 'category_products' category_name='Accessories'%}">
                 <img src="static/images/acc.jpeg" alt="Category">
                 <h3>Accessories</h3>
+                </a>
             </div>
         </div>
     </section>

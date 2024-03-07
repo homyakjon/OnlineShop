@@ -20,6 +20,7 @@
                         {% csrf_token %}
                         <input type="hidden" name="product_id" value="{{ product.id }}">
                         <button class='add' type="button" onclick="submitForm('cartForm{{ product.id }}')">Delete</button>
+                        <a href="{% url 'make_order'%}" class="make_order">Create Order</a>
                     </form>
                 </li>
             {% endfor %}
@@ -30,7 +31,7 @@
             }
         </script>
     {% else %}
-        <p>Your shopping cart is empty.</p>
+        <h2><p>Your shopping cart is empty.</p></h2>
     {% endif %}
 {% endblock %}
 

@@ -11,3 +11,14 @@
     cursor: pointer;
     border-radius: 8px;
 }
+
+.make_order {
+    color: black;
+    background-color: orange;
+    border: 2px solid orange;
+    padding: 8px 16px;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 5px;
+    font-size: 16px;
+}

@@ -114,3 +114,17 @@ def cart_up(request):
     cart_ids = request.session.get('cart', {})
     products = Product.objects.filter(id__in=cart_ids.keys())
     return render(request, 'cart.html', {'products': products, 'cart_count': cart_count})
+
+
+def make_order(request):
+    cart = request.session.get('cart', {})
+    product_ids = cart.keys()
+    products = Product.objects.filter(id__in=product_ids)
+
+    total_price = sum(product.price * cart[str(product.id)] for product in products)
+    counts = 0
+    for product in products:
+        if str(product.id) in cart:
+            counts = cart[str(product.id)]
+
+    return render(request, 'make_order.html', {'products': products, 'total_price': total_price, 'quantity': counts})
