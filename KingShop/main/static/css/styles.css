@@ -1,0 +1,181 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    text-align: center;
+
+}
+
+.navbar {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+
+}
+
+h1.logo {
+    font-size: 24px;
+    margin: 0;
+    border: 2px solid #000;
+    padding: 10px 20px;
+    display: inline-block;
+}
+
+.nav-links {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li {
+    display: inline-block;
+    padding-right: 20px;
+}
+
+.nav-links li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.cart-icon {
+    position: relative;
+    left: -380px;
+    transform: scale(1.2);
+}
+
+.cart-icon .cart-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: orange;
+    color: black;
+    border-radius: 50%;
+    padding: 5px;
+}
+
+
+.banner {
+    background-image: url('../images/banner.jpg');
+    background-size: cover;
+    color: #fff;
+    text-align: center;
+    padding: 100px 0;
+}
+
+.banner h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.banner p {
+    font-size: 18px;
+    margin-bottom: 40px;
+}
+
+.banner .btn {
+    background-color: #42b9f5;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.categories {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.category-item {
+    display: inline-block;
+    margin: 0 20px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.category-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+    border: 5px solid #fff;
+}
+
+.category-item h3 {
+    margin-top: 20px;
+}
+
+.footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+
+}
+
+.footer p {
+    margin: 0;
+}
+
+.footer-links {
+    list-style-type: none;
+    padding: 0;
+}
+
+.footer-links li {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.footer-links li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+
+.green-button {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+.content {
+    text-align: center;
+}
+
+
+ul {
+    list-style-type: none;
+
+}
+
+ol {
+    list-style-type: none;
+
+}
+
+.sub {
+    font-size: 20px;
+}
+
+.log {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Shopping Cart
+{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/add.css' %}">
+    {% if products %}
+        <h1>Your Shopping Cart</h1>
+        <ul>
+            {% for product in products %}
+                <li>
+                    <h2>{{ product.name }}</h2>
+                    <h3><p>Description: {{ product.description }}</p></h3>
+                    <h3><p>Price: ${{ product.price }}</p></h3>
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    <form id="cartForm{{ product.id }}" method="POST" action="{% url 'del_from_cart' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="product_id" value="{{ product.id }}">
+                        <button class='add' type="button" onclick="submitForm('cartForm{{ product.id }}')">Delete</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+        <script>
+            function submitForm(formId) {
+                document.getElementById(formId).submit();
+            }
+        </script>
+    {% else %}
+        <p>Your shopping cart is empty.</p>
+    {% endif %}
+{% endblock %}
+

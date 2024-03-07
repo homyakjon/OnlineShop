@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+
+    Home - Online Store
+
+{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/balance.css' %}">
+    <section class="banner">
+        <div class="container">
+            <h2>Welcome to Our Online Store</h2>
+
+            <h2 class="user">hi, {{ user.username }}!</h2>
+            {% if user.is_authenticated %}
+                <p class="balance">Your balance: {{ user.userprofile.balance }}</p>
+            {% else %}
+                <p class="balance">Your balance: $0</p>
+            {% endif %}
+
+            <p>Discover amazing deals and the latest trends in fashion, electronics, and more.</p>
+            <ul class="btn" id="buyNowDropdown" style="display: none;">
+                <li><h3><a href="{% url 'category_products' category_name='Electronics' %}">Electronics</a></h3></li>
+                <li><h3><a href="{% url 'category_products' category_name='Clothing' %}">Clothing</a></h3></li>
+                <li><h3><a href="{% url 'category_products' category_name='Accessories' %}">Accessories</a></h3></li>
+            </ul>
+            <button id="buyNowButton" class="green-button" ><h2>Catalog</h2></button>
+        </div>
+    </section>
+
+    <section class="categories">
+        <div class="container">
+            <h2>Explore Our Categories</h2>
+            <div class="category-item">
+                <img src="static/images/tech.jpeg" alt="Category">
+                <h3>Electronics</h3>
+            </div>
+            <div class="category-item">
+                <img src="static/images/cloth.jpeg" alt="Category">
+                <h3>Clothing</h3>
+            </div>
+            <div class="category-item">
+                <img src="static/images/acc.jpeg" alt="Category">
+                <h3>Accessories</h3>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

@@ -1,0 +1,10 @@
+.user {
+    color: white;
+    font-size: 20px;
+}
+
+.balance {
+    color: green;
+    font-size: 18px;
+    font-weight: bold;
+}
