@@ -15,7 +15,11 @@
                     <h2>{{ product.name }}</h2>
                     <h3><p>Description: {{ product.description }}</p></h3>
                     <h3><p>Price: ${{ product.price }}</p></h3>
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    {% else %}
+                        <p>No image available</p>
+                    {% endif %}
                     <form id="cartForm{{ product.id }}" method="POST" action="{% url 'del_from_cart' %}">
                         {% csrf_token %}
                         <input type="hidden" name="product_id" value="{{ product.id }}">

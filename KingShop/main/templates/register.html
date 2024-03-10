@@ -2,8 +2,7 @@
 
 {% block content %}
     {% if user.is_authenticated %}
-        <p>Welcome, {{ user.username }}!</p>
-        <a href="{% url 'logout' %}">Logout</a>
+        <h2><p>Welcome, {{ user.username }}!</p></h2>
     {% else %}
         {% if msg %}
             <p>{{ msg }}</p>
@@ -19,6 +18,5 @@
             <input class="sub" type="submit" value="Register">
         </form>
 
-        <p>You are not logged in. <a href="{% url 'login' %}" ><button class="log">Login</button></a></p>
     {% endif %}
 {% endblock %}

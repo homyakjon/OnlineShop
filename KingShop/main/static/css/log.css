@@ -1,0 +1,21 @@
+.log {
+    background-color: orange;
+    color: black;
+    padding: 8px 22px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.log:hover {
+    background-color: #cc0000;
+}
+
+.log:active {
+    background-color: #990000;
+}
+
+.l {
+    color: green;
+}

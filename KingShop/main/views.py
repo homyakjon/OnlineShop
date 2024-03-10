@@ -1,8 +1,8 @@
 from django.contrib import messages
-from django.contrib.auth import logout
+from django.contrib.auth import logout, login, authenticate
 from django.shortcuts import render, redirect
 from django.views import View
-from main.forms import UserRegisterForm, UserLoginForm, AddToCartForm
+from main.forms import UserRegisterForm, UserLoginForm, AddToCartForm, CategoryForm, ProductForm
 from main.models import Product, Category
 
 
@@ -17,7 +17,7 @@ def register(request):
         form.save(request)
         msg = 'Hi, you have successfully registered'
         messages.success(request, msg)
-        return redirect('index')
+        return redirect('login')
     else:
         form = UserRegisterForm()
         cart_count = get_cart_count(request)
@@ -27,6 +27,10 @@ def register(request):
 def login_view(request):
     form = UserLoginForm(request.POST)
     if form.is_valid():
+        username = form.cleaned_data['username']
+        password = form.cleaned_data['password']
+        user = authenticate(request, username=username, password=password)
+        login(request, user)
         msg = 'You have successfully entered the store'
         messages.success(request, msg)
         return redirect('index')
@@ -68,6 +72,28 @@ def category_products(request, category_name):
                   )
 
 
+def add_new_category(request):
+    form = CategoryForm(request.POST)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Category added successfully.")
+        return redirect('add_product')
+    else:
+        form = CategoryForm()
+    return render(request, 'add_category.html', {'form': form})
+
+
+def add_new_product(request):
+    form = ProductForm(request.POST)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Item added successfully.")
+        return redirect('cart')
+    else:
+        form = ProductForm()
+    return render(request, 'add_product.html', {'form': form})
+
+
 class CartView(View):
 
     def get(self, request):
@@ -81,10 +107,14 @@ def add_to_cart(request):
     form = AddToCartForm(request.POST)
     if form.is_valid():
         product_id = form.cleaned_data['product_id']
-        cart = request.session.get('cart', {})
-        cart[product_id] = cart.get(product_id, 0) + 1
-        request.session['cart'] = cart
-        messages.success(request, "Product added to cart")
+        product = Product.objects.get(id=product_id)
+        if product.price > 0:
+            cart = request.session.get('cart', {})
+            cart[product_id] = cart.get(product_id, 0) + 1
+            request.session['cart'] = cart
+            messages.success(request, "Product added to cart")
+        else:
+            return redirect('error')
         return redirect('cart')
     return redirect('index')
 
@@ -120,11 +150,17 @@ def make_order(request):
     cart = request.session.get('cart', {})
     product_ids = cart.keys()
     products = Product.objects.filter(id__in=product_ids)
-
     total_price = sum(product.price * cart[str(product.id)] for product in products)
     counts = 0
     for product in products:
         if str(product.id) in cart:
-            counts = cart[str(product.id)]
+            counts += cart[str(product.id)]
 
     return render(request, 'make_order.html', {'products': products, 'total_price': total_price, 'quantity': counts})
+
+
+def error_message(request):
+    err = 'Price product cannot be negative!'
+    return render(request, 'error.html', {'err': err})
+
+

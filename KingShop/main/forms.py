@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
-from main.models import UserProfile, Product
+from main.models import UserProfile, Product, Category
 
 
 class UserRegisterForm(forms.ModelForm):
@@ -62,4 +62,38 @@ class DelCartForm(forms.Form):
         return product_id
 
 
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['name', 'description']
 
+    def clean(self):
+        cleaned_data = super().clean()
+        name = cleaned_data.get('name')
+        description = cleaned_data.get('description')
+        if not name:
+            raise forms.ValidationError('The category name is required.')
+        if not description:
+            raise forms.ValidationError('Category description is required.')
+
+
+class ProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ['name', 'description', 'price', 'categories']
+
+    def clean(self):
+        cleaned_data = super().clean()
+        name = cleaned_data.get('name')
+        description = cleaned_data.get('description')
+        price = cleaned_data.get('price')
+        categories = cleaned_data.get('categories')
+
+        if not name:
+            raise forms.ValidationError('The category name is required.')
+        if not description:
+            raise forms.ValidationError('Category description is required.')
+        if not price:
+            raise forms.ValidationError('The price of the product must be greater than zero.')
+        if not categories:
+            raise forms.ValidationError('Must be categories.')
