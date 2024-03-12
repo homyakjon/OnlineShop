@@ -20,6 +20,8 @@ urlpatterns = [
     path('error/', error_message, name='error'),
     path('add_product', add_new_product, name='add_product'),
     path('add_category', add_new_category, name='add_category'),
+
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

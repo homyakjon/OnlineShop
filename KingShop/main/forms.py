@@ -16,7 +16,7 @@ class UserRegisterForm(forms.ModelForm):
         user.set_password(self.cleaned_data['password'])
         if commit:
             user.save()
-            UserProfile.objects.create(user=user, balance=1500)
+            UserProfile.objects.create(user=user, balance=2000)
             username = self.cleaned_data['username']
             password = self.cleaned_data['password']
             user = authenticate(request, username=username, password=password)
@@ -97,3 +97,5 @@ class ProductForm(forms.ModelForm):
             raise forms.ValidationError('The price of the product must be greater than zero.')
         if not categories:
             raise forms.ValidationError('Must be categories.')
+
+

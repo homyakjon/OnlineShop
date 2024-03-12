@@ -46,3 +46,10 @@ class OrderItem(models.Model):
     def __str__(self):
         return f'{self.product.name} - {self.quantity}'
 
+
+class Cart(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    products = models.ManyToManyField(Product)
+
+    def total_price(self):
+        return sum(product.price for product in self.products.all())

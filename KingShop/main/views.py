@@ -1,14 +1,18 @@
 from django.contrib import messages
 from django.contrib.auth import logout, login, authenticate
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.views import View
 from main.forms import UserRegisterForm, UserLoginForm, AddToCartForm, CategoryForm, ProductForm
-from main.models import Product, Category
+from main.models import Product, Category, UserProfile
 
 
+@login_required
 def index(request):
     cart_count = get_cart_count(request)
-    return render(request, 'index.html', {'cart_count': cart_count})
+    user = request.user
+    user_balance = user.userprofile.balance if user.is_authenticated else 0
+    return render(request, 'index.html', {'cart_count': cart_count, 'balance': user_balance})
 
 
 def register(request):
@@ -83,6 +87,7 @@ def add_new_category(request):
     return render(request, 'add_category.html', {'form': form})
 
 
+@login_required
 def add_new_product(request):
     form = ProductForm(request.POST)
     if form.is_valid():
@@ -151,16 +156,24 @@ def make_order(request):
     product_ids = cart.keys()
     products = Product.objects.filter(id__in=product_ids)
     total_price = sum(product.price * cart[str(product.id)] for product in products)
-    counts = 0
-    for product in products:
-        if str(product.id) in cart:
-            counts += cart[str(product.id)]
 
-    return render(request, 'make_order.html', {'products': products, 'total_price': total_price, 'quantity': counts})
+    user = request.user
+    user_profile = UserProfile.objects.get(user=user)
+
+    if user_profile.balance >= total_price:
+        user_profile.balance -= total_price
+        user_profile.save()
+        request.session['cart'] = {}
+        return render(request, 'make_order.html')
+    else:
+        return render(request, 'error.html', {'error_message': 'Insufficient funds'})
 
 
 def error_message(request):
     err = 'Price product cannot be negative!'
     return render(request, 'error.html', {'err': err})
+
+
+
 
 
