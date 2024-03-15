@@ -1,11 +1,11 @@
-from main.models import Category, Order, User, Product
+from main.models import Category, Order, User
 from api.serializers import UserSerializer, ProductSerializer, OrderSerializer, NewOrderSerializer,\
     SaveUserProductSerializer
 from rest_framework.renderers import JSONRenderer
 
 
 def create_objects():
-    user_data = {'username': 'Yurii34', 'email': 'eddy@example.com', 'first_name': 'Freddy', 'last_name': 'Van'}
+    user_data = {'username': 'Korol6', 'email': 'eddy@example.com', 'first_name': 'Freddy', 'last_name': 'Van'}
     user_serializer = UserSerializer(data=user_data)
     if user_serializer.is_valid():
         user_instance = user_serializer.save()
@@ -45,6 +45,10 @@ def create_objects():
 
     serialized_data = save_user_product_serializer.data
     print('User and purchases:', JSONRenderer().render(serialized_data))
+
+    user_instance = User.objects.get(pk=3)
+    serializer = UserSerializer(user_instance)
+    print(JSONRenderer().render(serializer.data))
 
 
 create_objects()

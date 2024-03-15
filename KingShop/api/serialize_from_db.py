@@ -28,6 +28,5 @@ def serialize_from_db():
 
 serialize_from_db()
 
-
 # exec(open('api/serialize_from_db.py').read())
 # exec(open('api/serializer_objects.py').read())
