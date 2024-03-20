@@ -12,7 +12,18 @@ class UserViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter]
     search_fields = ['username', 'email']
 
-    @action(detail=True, methods=['get'])
+    def get_queryset(self):
+        amount = self.request.query_params.get('amount')
+        if amount:
+            try:
+                amount = float(amount)
+                queryset = User.objects.filter(userprofile__balance__gte=amount)
+                return queryset
+            except ValueError:
+                pass
+        return User.objects.all()
+
+    @action(methods=['get'], detail=True)
     def orders(self, request, pk=None):
         user = self.get_object()
         orders = Order.objects.filter(user=user)
@@ -23,6 +34,17 @@ class UserViewSet(viewsets.ModelViewSet):
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name']
+
+    def get_queryset(self):
+        queryset = self.queryset
+        name = self.request.query_params.get('name')
+        if name:
+            queryset = queryset.filter(name__icontains=name)
+            return queryset
+        else:
+            return queryset.none()
 
 
 class OrderViewSet(viewsets.ModelViewSet):
