@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+
+    Home - Online Store
+
+{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/balance.css' %}">
+    <section class="banner">
+        <div class="container">
+            <h2>Welcome to the online store</h2>
+
+            <h2 class="user"> {{ user.username }} </h2>
+            {% if user.is_authenticated%}
+                <p class="balance">Your balance: $ {{ balance }} </p>
+
+            {% else %}
+                <p class="balance">Your balance: $0</p>
+            {% endif %}
+            {% if user.is_authenticated %}
+                <a id="logout-button" class="log" href="{% url 'logout' %}">Logout</a>
+            {% endif %}
+
+            <p>Discover amazing deals and the latest trends in fashion, electronics, and more.</p>
+            <ul class="btn" id="buyNowDropdown" style="display: none;">
+                <li><h3><a href="{% url 'category_products' category_name='Electronics' %}">Electronics</a></h3></li>
+                <li><h3><a href="{% url 'category_products' category_name='Clothing' %}">Clothing</a></h3></li>
+                <li><h3><a href="{% url 'category_products' category_name='Accessories' %}">Accessories</a></h3></li>
+            </ul>
+            <button id="buyNowButton" class="green-button" ><h2>Catalog</h2></button>
+        </div>
+    </section>
+
+    <section class="categories">
+        <div class="container">
+            <h2>Explore Our Categories</h2>
+            <div class="category-item">
+                <a href="{% url 'category_products' category_name='Electronics' %}">
+                <img src="static/images/tech.jpeg" alt="Category">
+                <h3>Electronics</h3>
+                </a>
+            </div>
+            <div class="category-item">
+                <a href="{% url 'category_products' category_name='Clothing' %}">
+                <img src="static/images/clo.jpg" alt="Category">
+                <h3>Clothing</h3>
+                </a>
+            </div>
+            <div class="category-item">
+                <a href="{% url 'category_products' category_name='Accessories'%}">
+                <img src="static/images/acces.jpg" alt="Category">
+                <h3>Accessories</h3>
+                </a>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
