@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Shopping Cart
+{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/add.css' %}">
+    {% if products %}
+        <h1>Your Shopping Cart</h1>
+        <ul>
+            {% for product in products %}
+                <li>
+                    <h2>{{ product.name }}</h2>
+                    <h3><p>Description: {{ product.description }}</p></h3>
+                    <h3><p>Price: ${{ product.price }}</p></h3>
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    {% else %}
+                        <p>No image available</p>
+                    {% endif %}
+                    <form id="cartForm{{ product.id }}" method="POST" action="{% url 'del_from_cart' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="product_id" value="{{ product.id }}">
+                        <button class='add' type="button" onclick="submitForm('cartForm{{ product.id }}')">Delete</button>
+                        <a href="{% url 'make_order'%}" class="make_order">Create Order</a>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+        <script>
+            function submitForm(formId) {
+                document.getElementById(formId).submit();
+            }
+        </script>
+    {% else %}
+        <h2><p>Your shopping cart is empty.</p></h2>
+    {% endif %}
+{% endblock %}
+

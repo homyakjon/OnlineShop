@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Your Order
+{% endblock %}
+
+{% block content %}
+    <h1 class="confirm">Your order confirmed!</h1>
+    <ul>
+        {% for product in products %}
+            <li>
+                <h2>{{ product.name }}</h2>
+                <h2> {{ description }}</h2>
+                <h3><p>Price: ${{ product.price }}</p></h3>
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                {% else %}
+                    <p>No image available</p>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+<!--    <h2><p>Quantity: {{ quantity }}</p></h2>-->
+<!--    <h2 class="confirm">Total Price: ${{ total_price }}</h2>-->
+{% endblock %}
