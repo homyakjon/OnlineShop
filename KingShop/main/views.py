@@ -174,6 +174,3 @@ def error_message(request):
     return render(request, 'error.html', {'err': err})
 
 
-
-
-
