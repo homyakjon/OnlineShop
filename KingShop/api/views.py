@@ -65,9 +65,7 @@ class OrderViewSet(viewsets.ModelViewSet):
 
 
 class AuthView(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
 
-    @permission_classes([IsAuthenticatedOrReadOnly])
     def post(self, request, format=None):
         username = request.data.get('username')
         password = request.data.get('password')
