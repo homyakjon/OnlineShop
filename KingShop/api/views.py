@@ -84,28 +84,23 @@ class AuthView(APIView):
 class TokenView(ObtainAuthToken):
 
     def post(self, request, *args, **kwargs):
-        serializer = AuthTokenSerializer(data=request.data)
+        serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
 
         try:
             token = Token.objects.get(user=user)
+            if timezone.now() - token.created > timedelta(minutes=10):
+                token.delete()
+                return Response('Token has expired', status=status.HTTP_401_UNAUTHORIZED)
         except Token.DoesNotExist:
             token = Token.objects.create(user=user)
 
-            t = Timer(600, self.invalidate_token, args=[token])
-            t.start()
-
-            return Response({
-                'token': token.key,
-                'user_id': user.pk,
-                'email': user.email
-            })
-
-    def invalidate_token(self, token):
-        token.delete()
-        print("The token has been revoked: None")
-
+        return Response({
+            'token': token.key,
+            'user_id': user.pk,
+            'email': user.email
+        })
 
 
 
