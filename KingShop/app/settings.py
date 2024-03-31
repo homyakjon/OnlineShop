@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
+from celery.schedules import crontab
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,6 +44,7 @@ INSTALLED_APPS = [
     'main',
     'rest_framework',
     'rest_framework.authtoken',
+
 ]
 
 REST_FRAMEWORK = {
@@ -96,6 +99,16 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '5432',
     }
+}
+
+#CELERY
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+
+CELERY_BEAT_SCHEDULE = {
+    'cancel-returns-at-six': {
+        'task': 'myapp.tasks.cancel_returns',
+        'schedule': crontab(hour=18, minute=0),
+    },
 }
 
 # Password validation
