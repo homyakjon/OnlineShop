@@ -1,22 +1,20 @@
 from celery import shared_task
 from main.models import ReturnProduct
-from datetime import datetime, timezone
-from pytz import timezone as tz
+from datetime import timezone
+from django.conf import settings
 
 
 @shared_task
 def process_return_confirmation():
     unconfirmed_return = ReturnProduct.objects.filter(confirmed=False)
-    for return_product in unconfirmed_return:
-        return_product.confirmed = True
-        return_product.save()
-
-    return len(unconfirmed_return)
+    return unconfirmed_return.update(confirmed=True)
 
 
 @shared_task
 def cancel_returns():
-    kyev_tz = tz('Europe/Kiev')
-    current_time = datetime.now(timezone.utc).astimezone(kyev_tz)
-    if current_time.hour == 18 and current_time.minute == 0:
+    current_time = timezone.now()
+    scheduled_time = getattr(settings, 'CANCEL_RETURNS_TIME', '18:00')
+    if current_time.strftime('%H:%M') == scheduled_time:
         ReturnProduct.objects.all().update(confirmed=False)
+
+

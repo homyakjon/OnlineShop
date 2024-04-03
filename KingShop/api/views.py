@@ -108,9 +108,3 @@ def render_template(template, context):
     return tmpl.render(Context(context))
 
 
-@api_view(['POST'])
-def confirm_all_returns(request):
-    process_return_confirmation.delay()
-    return Response({'message': 'Confirmation process started'}, status=status.HTTP_200_OK)
-
-
