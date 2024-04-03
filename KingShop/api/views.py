@@ -1,19 +1,18 @@
 from django.contrib.auth import authenticate
 from rest_framework import viewsets, status
-from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
 from main.models import User, Product, Order
 from .serializers import UserSerializer, ProductSerializer, OrderSerializer
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view
 from rest_framework import filters
-from rest_framework.authentication import BasicAuthentication, SessionAuthentication
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.views import APIView
 from rest_framework.authtoken.models import Token
-from rest_framework.decorators import permission_classes
-from threading import Timer
 from rest_framework.filters import SearchFilter, OrderingFilter
+from datetime import timedelta
+from django.utils import timezone
+from api.tasks import process_return_confirmation
+from django.template import Engine, Context
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -102,5 +101,10 @@ class TokenView(ObtainAuthToken):
             'email': user.email
         })
 
+
+def render_template(template, context):
+    engine = Engine.get_default()
+    tmpl = engine.get_template(template)
+    return tmpl.render(Context(context))
 
 

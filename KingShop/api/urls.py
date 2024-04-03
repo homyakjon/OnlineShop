@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import UserViewSet, ProductViewSet, OrderViewSet, AuthView, TokenView
+from .views import UserViewSet, ProductViewSet, OrderViewSet, AuthView, TokenView, confirm_all_returns
 
 
 router = DefaultRouter()
@@ -12,6 +12,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('auth/', AuthView.as_view(), name='auth'),
     path('token/', TokenView.as_view(), name='token'),
+    path('confirm/', confirm_all_returns, name='confirm'),
 
 ]
 

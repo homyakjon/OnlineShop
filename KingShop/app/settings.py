@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
     'main',
     'rest_framework',
     'rest_framework.authtoken',
+
 ]
 
 REST_FRAMEWORK = {
@@ -97,6 +99,11 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
+#CELERY
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+
+CANCEL_RETURNS_TIME = '18:00'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

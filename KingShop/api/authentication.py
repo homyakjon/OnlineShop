@@ -12,7 +12,9 @@ class CustomTokenAuthentication(TokenAuthentication):
         except Token.DoesNotExist:
             raise AuthenticationFailed('Invalid token')
 
+        # Проверяем, не истекло ли время действия токена
         if token.created < timezone.now() - timedelta(minutes=1):
+            # Удаляем старый токен и создаем новый
             token.delete()
             user = token.user
             token = Token.objects.create(user=user)
